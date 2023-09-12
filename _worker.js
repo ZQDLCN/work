@@ -1,25 +1,25 @@
 // <!--GAMFC-->version base on commit 43fad05dcdae3b723c53c226f8181fc5bd47223e, time is 2023-06-22 15:20:02 UTC<!--GAMFC-END-->.
 // @ts-ignore
-import { connect } from 'cloudflare:sockets';
+import { connect } from 'cloudflare:sockets'
 
 // How to generate your own UUID:
 // [Windows] Press "Win + R", input cmd and run:  Powershell -NoExit -Command "[guid]::NewGuid()"
-let userID = 'd342d11e-d424-4583-b36e-524ab1f0afa4';
+let userID'075484da-5172-11ee-be56-0242ac120002'
 
-const proxyIPs = ['cdn-all.xn--b6gac.eu.org', 'cdn.xn--b6gac.eu.org', 'cdn-b100.xn--b6gac.eu.org', 'edgetunnel.anycast.eu.org', 'cdn.anycast.eu.org'];
-let proxyIP = proxyIPs[Math.floor(Math.random() * proxyIPs.length)];
+const proxyIPs['cdn-all.xn--b6gac.eu.org''cdn.xn--b6gac.eu.org''cdn-b100.xn--b6gac.eu.org''edgetunnel.anycast.eu.org''cdn.anycast.eu.org']
+let proxyIP[floor(random())]
 
-let dohURL = 'https://sky.rethinkdns.com/1:-Pf_____9_8A_AMAIgE8kMABVDDmKOHTAKg='; // https://cloudflare-dns.com/dns-query or https://dns.google/dns-query
+let dohURL'https://sky.rethinkdns.com/1:-Pf_____9_8A_AMAIgE8kMABVDDmKOHTAKg='// https://cloudflare-dns.com/dns-query or https://dns.google/dns-query
 
 // v2board api environment variables
-let nodeId = ''; // 1
+let nodeId''// 1
 
-let apiToken = ''; //abcdefghijklmnopqrstuvwxyz123456
+let apiToken''//abcdefghijklmnopqrstuvwxyz123456
 
-let apiHost = ''; // api.v2board.com
+let apiHost''// api.v2board.com
 
-if (!isValidUUID(userID)) {
-    throw new Error('uuid is not valid');
+if (isValidUUID()) {
+    throw new('uuid is not valid')
 }
 
 export default {
@@ -29,36 +29,36 @@ export default {
      * @param {import("@cloudflare/workers-types").ExecutionContext} ctx
      * @returns {Promise<Response>}
      */
-    async fetch(request, env, ctx) {
+    async fetch(requestenvctx) {
         try {
-            userID = env.UUID || userID;
-            proxyIP = env.PROXYIP || proxyIP;
-            dohURL = env.DNS_RESOLVER_URL || dohURL;
-            nodeId = env.NODE_ID || nodeId;
-            apiToken = env.API_TOKEN || apiToken;
-            apiHost = env.API_HOST || apiHost;
-            const upgradeHeader = request.headers.get('Upgrade');
-            if (!upgradeHeader || upgradeHeader !== 'websocket') {
-                const url = new URL(request.url);
-                switch (url.pathname) {
-                    case '/cf':
-                        return new Response(JSON.stringify(request.cf, null, 4), {
-                            status: 200,
-                            headers: {
-                                "Content-Type": "application/json;charset=utf-8",
-                            },
-                        });
-                    case '/connect': // for test connect to cf socket
-                        const [hostname, port] = ['cloudflare.com', '80'];
-                        console.log(`Connecting to ${hostname}:${port}...`);
+UUID
+PROXYIP
+DNS_RESOLVER_URL
+NODE_ID
+API_TOKEN
+API_HOST
+            const upgradeHeaderheadersget('Upgrade')
+            if ('websocket') {
+                const urlnew()
+                switch () {
+                    case '/cf'
+                        return new(stringify(){
+                            status200
+{
+                                "Content-Type""application/json;charset=utf-8"
+                            }
+                        })
+                    case '/connect'// for test connect to cf socket
+                        const []['cloudflare.com''80']
+log(`Connecting to ${}:${}...`)
 
                         try {
-                            const socket = await connect({
-                                hostname: hostname,
-                                port: parseInt(port, 10),
-                            });
+                            const socketawait connect({
+                                hostname
+                                (10)
+                            })
 
-                            const writer = socket.writable.getWriter();
+                            const writerwritablegetWriter()
 
                             try {
                                 await writer.write(new TextEncoder().encode('GET / HTTP/1.1\r\nHost: ' + hostname + '\r\n\r\n'));
